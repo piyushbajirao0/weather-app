@@ -1,0 +1,89 @@
+<app-navbar></app-navbar>
+<main class="content-area p-2 m-3 border">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="pageHeading">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4>Weather Details</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form [formGroup]="weatherSearchForm" (ngSubmit)="getWeatherData(weatherSearchForm.value)">
+            <div class="row mt-3 text-center">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <input class="form-control p-3" type="text" id="weatherLocation" formControlName="location"
+                        (input)="onInput()" aria-describedby="weatherLocation" placeholder="Please input a Location"/>
+                    </div>
+                </div>
+                <div class="col-md-4 p-2">
+                    <button type="submit" class="btn btn-success btn-md">
+                        Search for the weather</button>
+                </div>
+            </div>
+            <div class="card mt-3 p-3">
+                <div class="card-header text-white bg-dark">
+                    <div class="row">
+                        <div class="col-md-8">Weather Details</div>
+                        <div class="form-check col-md-2">
+                            <input class="form-check-input" type="radio" name="optionGroup" formControlName="isCelsius" value="celsius" id="celsius" (click)="onClickTemp('celsius')">
+                            <label class="form-check-label" for="celsius">Celsius </label>
+                        </div>
+                        <div class="form-check col-md-2">
+                            <input class="form-check-input" type="radio" name="optionGroup" formControlName="isCelsius" value="fahrenheit" id="fahrenheit" (click)="onClickTemp('fahrenheit')">
+                            <label class="form-check-label" for="fahrenheit">Fahrenheit </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ng-container *ngIf="weatherData;else other_content">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <div class="row text-center">
+                                    <div class="col-md-6 threshold" style="font-size: xxx-large;">
+                                        <strong>{{ isTempInCelsius == 'celsius' ? weatherData.list[0].main.temp : (weatherData.list[0].main.temp * 1.8) + 32  }} 
+                                        </strong>
+                                    </div>
+                                    <!-- <span style="font-size: large;" *ngIf="isTempInCelsius == 'celsius'">
+                                            C
+                                        </span>
+                                        <span style="font-size: large;" *ngIf="isTempInCelsius == 'fahrenheit'">
+                                            F
+                                        </span> -->
+                                    <div class="col-md-6">
+                                        <strong class="border-div">{{ weatherData.city.name }}, {{weatherData.city.country}}
+                                        </strong> 
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row mt-3 text-center">
+                                    <div class="col-md-2">HUMIDITY</div>
+                                    <div class="col-md-2">|</div>
+                                    <div class="col-md-2">WIND SPEED</div>
+                                    <div class="col-md-6">WEATHER</div>
+                                    <div class="col-md-2">{{ weatherData.list[0].main.humidity}}</div>
+                                    <div class="col-md-2">|</div>
+                                    <div class="col-md-2">{{ weatherData.list[0].wind.speed}} KMPL</div>
+                                    <div class="col-md-6">{{weatherData.list[0].weather[0].description | titlecase}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <!-- <p>Temperature: {{ isCelsius ? weatherData.list[0].main.temp : (weatherData.list[0].main.temp * 1.8) + 32 }}</p> -->
+                    </ng-container>
+                    <ng-template #other_content>
+                        <div class="no-record text-center">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <h4>No Record found</h4>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>

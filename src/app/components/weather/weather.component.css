@@ -1,0 +1,11 @@
+.threshold:after {
+    content: "\00b0"
+}
+
+.border-div {
+    font-size: xxx-large; 
+    border-bottom: 1px solid black;
+}
+input[type=text]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
